@@ -1,0 +1,6 @@
+<RCC>
+    <qresource>
+        <file>./images/locationArrow.png</file>
+        <file>./images/satellite.png</file>
+    </qresource>
+</RCC>
