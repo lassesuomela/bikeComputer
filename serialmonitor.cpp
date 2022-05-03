@@ -4,7 +4,7 @@ SerialMonitor::SerialMonitor()
 {
     serialPort = new QSerialPort();
 
-    serialPort->setPortName("com4");
+    serialPort->setPortName("com3");
 
     serialPort->setBaudRate(QSerialPort::Baud115200);
     serialPort->setDataBits(QSerialPort::Data8);
@@ -29,7 +29,11 @@ void SerialMonitor::serialReceived()
 
     if(text.contains("\r\n")){
 
+
         QJsonDocument doc = QJsonDocument::fromJson(text);
+
+        qDebug() << doc;
+
         text = "";
         QJsonObject data = doc.object();
 
