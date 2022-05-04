@@ -19,6 +19,7 @@ SerialMonitor::SerialMonitor()
 SerialMonitor::~SerialMonitor()
 {
     serialPort->close();
+
     delete serialPort;
     serialPort = nullptr;
 }
@@ -28,7 +29,6 @@ void SerialMonitor::serialReceived()
     text += serialPort->readLine();
 
     if(text.contains("\r\n")){
-
 
         QJsonDocument doc = QJsonDocument::fromJson(text);
 

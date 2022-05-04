@@ -29,9 +29,10 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../serialMonitor/release/ -lserialMonitor
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../serialMonitor/debug/ -lserialMonitor
-else:unix:!macx: LIBS += -L$$PWD/../serialMonitor/ -lserialMonitor
 
-INCLUDEPATH += $$PWD/../serialMonitor
-DEPENDPATH += $$PWD/../serialMonitor
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../serialPortReader/release/ -lserialMonitor
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../serialPortReader/debug/ -lserialMonitor
+else:unix:!macx: LIBS += -L$$PWD/../serialPortReader/ -lserialMonitor
+
+INCLUDEPATH += $$PWD/../serialPortReader
+DEPENDPATH += $$PWD/../serialPortReader
