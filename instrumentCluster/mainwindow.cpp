@@ -67,7 +67,7 @@ void MainWindow::stopBlinkTimer()
 
 void MainWindow::serialDataSlot(QJsonObject data)
 {
-    if(data["error"] != NULL){
+    if(data["error"] != ""){
         startBlinkTimer();
 
         qDebug() << "Error:" << data["error"].toString();
