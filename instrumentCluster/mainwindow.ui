@@ -90,7 +90,7 @@
      <rect>
       <x>10</x>
       <y>320</y>
-      <width>171</width>
+      <width>191</width>
       <height>124</height>
      </rect>
     </property>
@@ -173,35 +173,6 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="accLabel">
-       <property name="font">
-        <font>
-         <family>Franklin Gothic Book</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Accr</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="accValue">
-       <property name="font">
-        <font>
-         <family>Franklin Gothic Book</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
    <widget class="QLabel" name="satImage">
@@ -262,10 +233,31 @@
      </font>
     </property>
     <property name="text">
-     <string>000 °</string>
+     <string>0°</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="accValue">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>10</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

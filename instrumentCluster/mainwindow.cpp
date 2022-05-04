@@ -29,7 +29,7 @@ void MainWindow::setValues()
     ui->latValueText->setText(QString::number(lat, 'g', 6));
     ui->lngValueText->setText(QString::number(lng, 'g', 6));
     ui->satText->setText(QString::number(sat));
-    ui->headingText->setText(QString::number(course, 'g', 0) + " °");
+    ui->headingText->setText(QString::number(course, 'g', 0) + "°");
 }
 
 void MainWindow::rotateImage(int deg)
