@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
 
     monitor = new SerialMonitor();
-
     connect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
 }
 
@@ -25,20 +24,34 @@ MainWindow::~MainWindow()
 
 void MainWindow::setValues()
 {
-    ui->altValueText->setText(QString::number(alt)+ " m");
-    ui->speedText->setText(QString::number(speed));
-    ui->confidenceValueText->setText(QString::number(hdop));
-    ui->latValueText->setText(QString::number(lat));
-    ui->lngValueText->setText(QString::number(lng));
+    ui->altValueText->setText(QString::number(alt, 'g', 0)+ " m");
+    ui->speedText->setText(QString::number(speed, 'g', 1));
+    ui->latValueText->setText(QString::number(lat, 'g', 6));
+    ui->lngValueText->setText(QString::number(lng, 'g', 6));
     ui->satText->setText(QString::number(sat));
-    ui->headingText->setText(QString::number(course) + " °");
-    ui->timeText->setText(time);
+    ui->headingText->setText(QString::number(course, 'g', 0) + " °");
 }
 
-void MainWindow::rotateImage(int degree)
+void MainWindow::rotateImage(int deg)
 {
 
 
+}
+
+void MainWindow::changeHdopColor(int val)
+{
+    if(val < 120){
+        //green
+        colorValue = "background-color:rgb(92, 184, 92)";
+    }else if(val < 250){
+        //yellow
+        colorValue = "background-color:rgb(240, 173, 78)";
+    }else {
+        //red
+        colorValue = "background-color:rgb(217, 83, 79)";
+    }
+
+    ui->accValue->setStyleSheet(colorValue);
 }
 
 void MainWindow::blinkImage()
@@ -67,7 +80,7 @@ void MainWindow::stopBlinkTimer()
 
 void MainWindow::serialDataSlot(QJsonObject data)
 {
-    if(data["error"] != ""){
+    if(data.contains("error")){
         startBlinkTimer();
 
         qDebug() << "Error:" << data["error"].toString();
@@ -82,11 +95,11 @@ void MainWindow::serialDataSlot(QJsonObject data)
     lng = data["lng"].toDouble();
     speed = data["speed"].toDouble();
     alt = data["altitude"].toDouble();
-    course = data["course"].toInt();
+    course = data["course"].toDouble();
     hdop = data["hdop"].toInt();
     sat = data["satellites"].toInt();
-    time = data["time"].toString();
 
+    changeHdopColor(hdop);
     rotateImage(course);
 
     setValues();

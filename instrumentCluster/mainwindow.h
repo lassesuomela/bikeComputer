@@ -22,12 +22,15 @@ private:
     SerialMonitor *monitor;
     QTimer *blinkTimer;
 
-    QString time;
-    int sat, hdop, course;
-    double speed, lat, lng, alt;
+    QString colorValue = "";
+
+    int sat, hdop;
+    double speed, lat, lng, alt, course;
 
     void setValues();
     void rotateImage(int);
+
+    void changeHdopColor(int);
 
     void startBlinkTimer();
     void stopBlinkTimer();

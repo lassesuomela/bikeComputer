@@ -12,7 +12,7 @@ SoftwareSerial ss(RXPin, TXPin);
 DynamicJsonDocument data(64);
 
 double lat, lng, alt, speed, hdop, course;
-int sat, hour, minute;
+int sat;
 
 void setup(){
   Serial.begin(115200);
@@ -30,8 +30,6 @@ void loop(){
       sat = gps.satellites.value();
       hdop = gps.hdop.value();
       course = gps.course.deg();
-      hour = gps.time.hour();
-      minute = gps.time.minute();
 
       data["lat"] = lat;
       data["lng"] = lng;
@@ -40,7 +38,6 @@ void loop(){
       data["altitude"] = alt;
       data["satellites"] = sat;
       data["hdop"] = hdop;
-      data["time"] = hour + ":" + minute;
         
       smartDelay(1000);
     }
