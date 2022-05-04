@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "serialmonitor.h"
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,14 +20,18 @@ public:
 private:
     Ui::MainWindow *ui;
     SerialMonitor *monitor;
-
+    QTimer *blinkTimer;
     int sat, hdop, course;
     double speed, lat, lng, alt;
 
     void setValues();
     void rotateImage(int);
 
+    void startBlinkTimer();
+    void stopBlinkTimer();
+
 private slots:
     void serialDataSlot(QJsonObject);
+    void blinkImage();
 };
 #endif // MAINWINDOW_H

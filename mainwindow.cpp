@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    blinkTimer = new QTimer();
+    connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
+
     monitor = new SerialMonitor();
 
     connect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
@@ -36,8 +39,32 @@ void MainWindow::rotateImage(int degree)
 
 }
 
+void MainWindow::blinkImage()
+{
+    if(ui->satImage->pixmap()->isNull()){
+
+    }
+}
+
+void MainWindow::startBlinkTimer()
+{
+    blinkTimer->start(100);
+}
+
+void MainWindow::stopBlinkTimer()
+{
+    blinkTimer->stop();
+}
+
 void MainWindow::serialDataSlot(QJsonObject data)
 {
+    if(data["error"] != NULL){
+        //Todo: blink satellite img
+        startBlinkTimer();
+        return;
+    }
+
+    stopBlinkTimer();
 
     // keys: lat, lng, speed, altitude, course, hdop, satellites
     lat = data["lat"].toDouble();
