@@ -52,6 +52,8 @@ void loop(){
 
     serializeJson(data, Serial);
     Serial.println();
+
+    data.clear();
   }
 }
 

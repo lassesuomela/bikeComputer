@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    this->setFixedSize(this->width(), this->height());
 
     blinkTimer = new QTimer();
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
@@ -21,7 +21,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete monitor;
     monitor = nullptr;
-
 }
 
 void MainWindow::setValues()
@@ -33,6 +32,7 @@ void MainWindow::setValues()
     ui->lngValueText->setText(QString::number(lng));
     ui->satText->setText(QString::number(sat));
     ui->headingText->setText(QString::number(course) + " °");
+    ui->timeText->setText(time);
 }
 
 void MainWindow::rotateImage(int degree)
@@ -61,16 +61,16 @@ void MainWindow::stopBlinkTimer()
 {
     if(blinkTimer->isActive()){
         blinkTimer->stop();
+        ui->satImage->setEnabled(true);
     }
 }
 
 void MainWindow::serialDataSlot(QJsonObject data)
 {
     if(data["error"] != NULL){
-        //Todo: blink satellite img
         startBlinkTimer();
 
-        qDebug() << "Error:"<< data["error"].toString();
+        qDebug() << "Error:" << data["error"].toString();
 
         return;
     }
@@ -85,6 +85,7 @@ void MainWindow::serialDataSlot(QJsonObject data)
     course = data["course"].toInt();
     hdop = data["hdop"].toInt();
     sat = data["satellites"].toInt();
+    time = data["time"].toString();
 
     rotateImage(course);
 

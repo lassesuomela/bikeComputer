@@ -21,6 +21,8 @@ private:
     Ui::MainWindow *ui;
     SerialMonitor *monitor;
     QTimer *blinkTimer;
+
+    QString time;
     int sat, hdop, course;
     double speed, lat, lng, alt;
 
