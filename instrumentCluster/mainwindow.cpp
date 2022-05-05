@@ -8,9 +8,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setFixedSize(this->width(), this->height());
 
+    headingPixMap = new QPixmap(*ui->coursePic->pixmap());
+
     blinkTimer = new QTimer();
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
-
     monitor = new SerialMonitor();
 
     connect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
@@ -21,6 +22,8 @@ MainWindow::~MainWindow()
     disconnect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
     disconnect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
 
+    delete headingPixMap;
+    headingPixMap = nullptr;
     delete ui;
     delete monitor;
     monitor = nullptr;
@@ -28,23 +31,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::setValues()
 {
-    ui->altValueText->setText(QString::number(alt, 'g', 0)+ " m");
-    ui->speedText->setText(QString::number(speed, 'g', 1));
-    ui->latValueText->setText(QString::number(lat, 'g', 6));
-    ui->lngValueText->setText(QString::number(lng, 'g', 6));
+    ui->altValueText->setText(QString::number(alt, 'f', 0)+ " m");
+    ui->speedText->setText(QString::number(speed, 'f', 1));
+    ui->latValueText->setText(QString::number(lat, 'f', 5));
+    ui->lngValueText->setText(QString::number(lng, 'f', 5));
     ui->satText->setText(QString::number(sat));
-    ui->headingText->setText(QString::number(course, 'g', 0) + "°");
+    ui->headingText->setText(QString::number(course, 'f', 0) + "°");
 }
 
 void MainWindow::rotateImage(int deg)
 {
 
+    QTransform transform;
+    transform.rotate(deg);
 
+    ui->coursePic->setPixmap(headingPixMap->transformed(transform));
+    qDebug() << "rotating";
 }
 
 void MainWindow::changeHdopColor(int val)
 {
-    if(val < 120){
+    if(val > 0 && val < 120){
         //green
         colorValue = "background-color:rgb(92, 184, 92)";
     }else if(val < 250){
@@ -87,11 +94,17 @@ void MainWindow::serialDataSlot(QJsonObject data)
     if(data.contains("error")){
         startBlinkTimer();
 
+        // reset stylesheet in case of error
+        ui->accValue->setStyleSheet("");
         qDebug() << "Error:" << data["error"].toString();
 
         return;
     }
-    qDebug() << "No errors found";
+
+    // check data keys length to determine that the data was not empty
+    if(data.keys().length() < 7){
+        return;
+    }
 
     stopBlinkTimer();
 
@@ -101,6 +114,7 @@ void MainWindow::serialDataSlot(QJsonObject data)
     speed = data["speed"].toDouble();
     alt = data["altitude"].toDouble();
     course = data["course"].toDouble();
+
     hdop = data["hdop"].toInt();
     sat = data["satellites"].toInt();
 

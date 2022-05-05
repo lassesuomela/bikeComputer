@@ -42,6 +42,7 @@ void SerialMonitor::initSerialPort(QString comPort)
 
         qDebug() << "Error on opening port:" << serialPort->error();
         qDebug() << "Configure settings.ini file with correct port";
+        qDebug() << "or reconnect the USB";
     }
 }
 
@@ -59,6 +60,10 @@ void SerialMonitor::readSettingsFile()
 
 void SerialMonitor::serialReceived()
 {
+    if(serialPort->readLine() == ""){
+        return;
+    }
+
     text += serialPort->readLine();
 
     if(text.contains("\r\n")){

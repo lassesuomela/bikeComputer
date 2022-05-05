@@ -66,10 +66,10 @@
    <widget class="QLabel" name="coursePic">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>128</width>
-      <height>128</height>
+      <x>30</x>
+      <y>130</y>
+      <width>92</width>
+      <height>92</height>
      </rect>
     </property>
     <property name="text">

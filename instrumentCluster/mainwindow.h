@@ -21,7 +21,7 @@ private:
     Ui::MainWindow *ui;
     SerialMonitor *monitor;
     QTimer *blinkTimer;
-
+    QPixmap *headingPixMap;
     QString colorValue = "";
 
     int sat, hdop;
