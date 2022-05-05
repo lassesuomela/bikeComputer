@@ -12,11 +12,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
 
     monitor = new SerialMonitor();
+
     connect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
 }
 
 MainWindow::~MainWindow()
 {
+    disconnect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
+    disconnect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
+
     delete ui;
     delete monitor;
     monitor = nullptr;
@@ -87,6 +91,7 @@ void MainWindow::serialDataSlot(QJsonObject data)
 
         return;
     }
+    qDebug() << "No errors found";
 
     stopBlinkTimer();
 

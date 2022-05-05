@@ -4,7 +4,29 @@ SerialMonitor::SerialMonitor()
 {
     serialPort = new QSerialPort();
 
-    serialPort->setPortName("com3");
+    connect(serialPort, SIGNAL(readyRead()), this, SLOT(serialReceived()));
+
+    settings = new QSettings("settings.ini", QSettings::IniFormat);
+    settings->sync();
+
+    readSettingsFile();
+}
+
+SerialMonitor::~SerialMonitor()
+{
+    disconnect(serialPort, SIGNAL(readyRead()), this, SLOT(serialReceived()));
+    serialPort->close();
+
+    delete settings;
+    settings = nullptr;
+    delete serialPort;
+    serialPort = nullptr;
+}
+
+void SerialMonitor::initSerialPort(QString comPort)
+{
+
+    serialPort->setPortName(comPort);
 
     serialPort->setBaudRate(QSerialPort::Baud115200);
     serialPort->setDataBits(QSerialPort::Data8);
@@ -13,15 +35,26 @@ SerialMonitor::SerialMonitor()
     serialPort->setFlowControl(QSerialPort::NoFlowControl);
     serialPort->open(QIODevice::ReadOnly);
 
-    connect(serialPort, SIGNAL(readyRead()), this, SLOT(serialReceived()));
+    if(serialPort->isOpen()){
+        qDebug() << "Port:" << port << "is open";
+
+    }else{
+
+        qDebug() << "Error on opening port:" << serialPort->error();
+        qDebug() << "Configure settings.ini file with correct port";
+    }
 }
 
-SerialMonitor::~SerialMonitor()
+void SerialMonitor::readSettingsFile()
 {
-    serialPort->close();
+    settings->beginGroup("SerialReader");
 
-    delete serialPort;
-    serialPort = nullptr;
+    port = settings->value("port", "None").toString();
+    qDebug() << "Using port:" << port;
+
+    settings->endGroup();
+
+    initSerialPort(port);
 }
 
 void SerialMonitor::serialReceived()

@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QSettings>
 
 class SERIALMONITOR_EXPORT SerialMonitor : public QObject
 {
@@ -17,6 +18,11 @@ public:
 private:
     QSerialPort * serialPort;
     QByteArray text;
+    QSettings * settings;
+    QString port;
+
+    void initSerialPort(QString);
+    void readSettingsFile();
 
 private slots:
     void serialReceived();
