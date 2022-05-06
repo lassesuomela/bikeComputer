@@ -15,12 +15,20 @@ MainWindow::MainWindow(QWidget *parent)
     monitor = new SerialMonitor();
 
     connect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
+    connect(monitor, SIGNAL(serialPortErrSignal()), this, SLOT(serialPortErrorSlot()));
+
+
+    QRegion *region = new QRegion(0, 0, ui->accValue->height()*0.5, ui->accValue->width()*0.5, QRegion::Ellipse);
+    ui->accValue->setMask(*region);
+    delete region;
+    region = nullptr;
 }
 
 MainWindow::~MainWindow()
 {
     disconnect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
     disconnect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
+    disconnect(monitor, SIGNAL(serialPortErrSignal()), this, SLOT(serialPortErrorSlot()));
 
     delete headingPixMap;
     headingPixMap = nullptr;
@@ -41,12 +49,10 @@ void MainWindow::setValues()
 
 void MainWindow::rotateImage(int deg)
 {
-
     QTransform transform;
     transform.rotate(deg);
 
     ui->coursePic->setPixmap(headingPixMap->transformed(transform));
-    qDebug() << "rotating";
 }
 
 void MainWindow::changeHdopColor(int val)
@@ -72,6 +78,11 @@ void MainWindow::blinkImage()
     }else{
         ui->satImage->setEnabled(false);
     }
+}
+
+void MainWindow::serialPortErrorSlot()
+{
+    qDebug() << "Error in main";
 }
 
 void MainWindow::startBlinkTimer()

@@ -242,10 +242,10 @@
    <widget class="QLabel" name="accValue">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>280</x>
       <y>10</y>
-      <width>51</width>
-      <height>41</height>
+      <width>32</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="font">

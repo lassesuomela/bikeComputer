@@ -20,7 +20,8 @@ FORMS += \
 
 OTHER_FILES += \
     images/locationArrow.png \
-    images/satellite.png
+    images/satellite.png \
+    settings.ini
 
 RESOURCES += \
     Resources.qrc

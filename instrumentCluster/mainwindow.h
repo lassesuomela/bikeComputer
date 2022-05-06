@@ -38,6 +38,7 @@ private:
 private slots:
     void serialDataSlot(QJsonObject);
     void blinkImage();
+    void serialPortErrorSlot();
 
 };
 #endif // MAINWINDOW_H

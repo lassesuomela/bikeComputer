@@ -28,6 +28,7 @@ private slots:
     void serialReceived();
 signals:
     void readDoneSignal(QJsonObject);
+    void serialPortErrSignal();
 };
 
 #endif // SERIALMONITOR_H

@@ -17,6 +17,8 @@ SerialMonitor::~SerialMonitor()
     disconnect(serialPort, SIGNAL(readyRead()), this, SLOT(serialReceived()));
     serialPort->close();
 
+    qDebug() << "Port closed:" << !serialPort->isOpen();
+
     delete settings;
     settings = nullptr;
     delete serialPort;
@@ -43,6 +45,7 @@ void SerialMonitor::initSerialPort(QString comPort)
         qDebug() << "Error on opening port:" << serialPort->error();
         qDebug() << "Configure settings.ini file with correct port";
         qDebug() << "or reconnect the USB";
+        emit serialPortErrSignal();
     }
 }
 
@@ -60,21 +63,17 @@ void SerialMonitor::readSettingsFile()
 
 void SerialMonitor::serialReceived()
 {
-    if(serialPort->readLine() == ""){
-        return;
-    }
-
     text += serialPort->readLine();
 
     if(text.contains("\r\n")){
 
         QJsonDocument doc = QJsonDocument::fromJson(text);
 
-        qDebug() << doc;
-
         text = "";
         QJsonObject data = doc.object();
 
         emit readDoneSignal(data);
     }
+
+
 }
