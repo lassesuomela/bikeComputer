@@ -34,11 +34,11 @@ private:
 
     void startBlinkTimer();
     void stopBlinkTimer();
+    void checkPortStatus();
 
 private slots:
     void serialDataSlot(QJsonObject);
     void blinkImage();
-    void serialPortErrorSlot();
 
 };
 #endif // MAINWINDOW_H

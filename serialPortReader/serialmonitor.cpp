@@ -25,6 +25,11 @@ SerialMonitor::~SerialMonitor()
     serialPort = nullptr;
 }
 
+bool SerialMonitor::isPortOpen()
+{
+    return serialPort->isOpen();
+}
+
 void SerialMonitor::initSerialPort(QString comPort)
 {
 
@@ -45,7 +50,6 @@ void SerialMonitor::initSerialPort(QString comPort)
         qDebug() << "Error on opening port:" << serialPort->error();
         qDebug() << "Configure settings.ini file with correct port";
         qDebug() << "or reconnect the USB";
-        emit serialPortErrSignal();
     }
 }
 

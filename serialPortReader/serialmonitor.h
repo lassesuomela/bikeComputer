@@ -15,6 +15,7 @@ class SERIALMONITOR_EXPORT SerialMonitor : public QObject
 public:
     SerialMonitor();
     ~SerialMonitor();
+    bool isPortOpen();
 private:
     QSerialPort * serialPort;
     QByteArray text;
@@ -28,7 +29,6 @@ private slots:
     void serialReceived();
 signals:
     void readDoneSignal(QJsonObject);
-    void serialPortErrSignal();
 };
 
 #endif // SERIALMONITOR_H

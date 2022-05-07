@@ -15,11 +15,13 @@ MainWindow::MainWindow(QWidget *parent)
     monitor = new SerialMonitor();
 
     connect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
-    connect(monitor, SIGNAL(serialPortErrSignal()), this, SLOT(serialPortErrorSlot()));
 
+    checkPortStatus();
 
     QRegion *region = new QRegion(0, 0, ui->accValue->height()*0.5, ui->accValue->width()*0.5, QRegion::Ellipse);
+
     ui->accValue->setMask(*region);
+
     delete region;
     region = nullptr;
 }
@@ -28,7 +30,6 @@ MainWindow::~MainWindow()
 {
     disconnect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
     disconnect(monitor, SIGNAL(readDoneSignal(QJsonObject)), this, SLOT(serialDataSlot(QJsonObject)));
-    disconnect(monitor, SIGNAL(serialPortErrSignal()), this, SLOT(serialPortErrorSlot()));
 
     delete headingPixMap;
     headingPixMap = nullptr;
@@ -80,11 +81,6 @@ void MainWindow::blinkImage()
     }
 }
 
-void MainWindow::serialPortErrorSlot()
-{
-    qDebug() << "Error in main";
-}
-
 void MainWindow::startBlinkTimer()
 {
     if(!blinkTimer->isActive()){
@@ -97,6 +93,13 @@ void MainWindow::stopBlinkTimer()
     if(blinkTimer->isActive()){
         blinkTimer->stop();
         ui->satImage->setEnabled(true);
+    }
+}
+
+void MainWindow::checkPortStatus()
+{
+    if(!monitor->isPortOpen()){
+        ui->errText->setText("Error on opening port");
     }
 }
 
