@@ -10,16 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     headingPixMap = new QPixmap(*ui->coursePic->pixmap());
 
-    quardrantMap[0.0] = "N";
-    quardrantMap[45.0] = "NE";
-    quardrantMap[90.0] = "E";
-    quardrantMap[135.0] = "SE";
-    quardrantMap[180.0] = "S";
-    quardrantMap[225.0] = "SW";
-    quardrantMap[270.0] = "W";
-    quardrantMap[315.0] = "NW";
-    quardrantMap[360.0] = "N";
-
     blinkTimer = new QTimer();
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
     monitor = new SerialMonitor();
@@ -55,7 +45,7 @@ void MainWindow::setValues()
     ui->latValueText->setText(QString::number(lat, 'f', 5));
     ui->lngValueText->setText(QString::number(lng, 'f', 5));
     ui->satText->setText(QString::number(sat));
-    ui->headingText->setText(QString::number(course, 'f', 0) + "°");
+    ui->headingText->setText(currentHeading);
 }
 
 void MainWindow::rotateImage(int deg)
@@ -113,10 +103,11 @@ void MainWindow::checkPortStatus()
     }
 }
 
-void MainWindow::quardrantNames(double deg)
+void MainWindow::checkQuadrantName(double deg)
 {
-    double x = 45.0;
+    int x = deg / 45.0;
 
+    currentHeading = quadrants[x];
 }
 
 void MainWindow::serialDataSlot(QJsonObject data)
@@ -150,6 +141,7 @@ void MainWindow::serialDataSlot(QJsonObject data)
 
     changeHdopColor(hdop);
     rotateImage(course);
+    checkQuadrantName(course);
 
     setValues();
 }

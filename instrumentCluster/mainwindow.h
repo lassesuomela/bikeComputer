@@ -24,7 +24,8 @@ private:
     QTimer *blinkTimer;
     QPixmap *headingPixMap;
     QString colorValue = "";
-    QMap<double, QString> quardrantMap;
+    QString quadrants[9] = {"N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"};
+    QString currentHeading;
 
     int sat, hdop;
     double speed, lat, lng, alt, course;
@@ -37,7 +38,7 @@ private:
     void startBlinkTimer();
     void stopBlinkTimer();
     void checkPortStatus();
-    void quardrantNames(double);
+    void checkQuadrantName(double);
 
 private slots:
     void serialDataSlot(QJsonObject);
