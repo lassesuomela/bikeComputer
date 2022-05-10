@@ -10,6 +10,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     headingPixMap = new QPixmap(*ui->coursePic->pixmap());
 
+    quardrantMap[0.0] = "N";
+    quardrantMap[45.0] = "NE";
+    quardrantMap[90.0] = "E";
+    quardrantMap[135.0] = "SE";
+    quardrantMap[180.0] = "S";
+    quardrantMap[225.0] = "SW";
+    quardrantMap[270.0] = "W";
+    quardrantMap[315.0] = "NW";
+    quardrantMap[360.0] = "N";
+
     blinkTimer = new QTimer();
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blinkImage()));
     monitor = new SerialMonitor();
@@ -101,6 +111,12 @@ void MainWindow::checkPortStatus()
     if(!monitor->isPortOpen()){
         ui->errText->setText("Error on opening port");
     }
+}
+
+void MainWindow::quardrantNames(double deg)
+{
+    double x = 45.0;
+
 }
 
 void MainWindow::serialDataSlot(QJsonObject data)

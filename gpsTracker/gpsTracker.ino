@@ -39,7 +39,7 @@ void loop(){
       data["satellites"] = sat;
       data["hdop"] = hdop;
         
-      smartDelay(1000);
+      smartDelay(500);
     }
     else{
       data["error"] = "No GPS fix";

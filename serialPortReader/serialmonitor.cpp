@@ -7,6 +7,7 @@ SerialMonitor::SerialMonitor()
     connect(serialPort, SIGNAL(readyRead()), this, SLOT(serialReceived()));
 
     settings = new QSettings("settings.ini", QSettings::IniFormat);
+    qDebug() << settings->fileName();
     settings->sync();
 
     readSettingsFile();

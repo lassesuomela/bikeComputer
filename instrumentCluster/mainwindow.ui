@@ -24,20 +24,26 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>9</y>
-      <width>191</width>
-      <height>71</height>
+      <y>10</y>
+      <width>271</width>
+      <height>78</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>36</pointsize>
+     </font>
     </property>
     <layout class="QHBoxLayout" name="speedLayout">
      <property name="spacing">
-      <number>10</number>
+      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="speedText">
        <property name="font">
         <font>
-         <pointsize>38</pointsize>
+         <pointsize>34</pointsize>
+         <weight>50</weight>
          <bold>false</bold>
         </font>
        </property>
