@@ -40,8 +40,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::setValues()
 {
-    ui->altValueText->setText(QString::number(alt, 'f', 0)+ " m");
-    ui->speedText->setText(QString::number(speed, 'f', 1));
+    ui->altValueText->setText(QString::number(alt, 'f', 0) + " m");
+    ui->speedText->setText(QString::number(speed, 'f', 1) + " km/h");
     ui->latValueText->setText(QString::number(lat, 'f', 5));
     ui->lngValueText->setText(QString::number(lng, 'f', 5));
     ui->satText->setText(QString::number(sat));

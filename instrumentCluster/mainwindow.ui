@@ -43,27 +43,11 @@
        <property name="font">
         <font>
          <pointsize>34</pointsize>
-         <weight>50</weight>
          <bold>false</bold>
         </font>
        </property>
        <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="speedSuffixText">
-       <property name="font">
-        <font>
-         <pointsize>22</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>km/h</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <string>0.0 km/h</string>
        </property>
       </widget>
      </item>
@@ -239,7 +223,7 @@
      </font>
     </property>
     <property name="text">
-     <string>0°</string>
+     <string/>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
